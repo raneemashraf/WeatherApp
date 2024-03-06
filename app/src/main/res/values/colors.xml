@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primary">#3C5C5F</color>
+    <color name="primaryVariant">#365355</color>
+    <color name="khodra">#436850</color>
+    <color name="secondary">#ADBC9F</color>
+    <color name="teal">#7FC3AE</color>
+    <color name="page">#FBFADA</color>
+
+
+
 </resources>
