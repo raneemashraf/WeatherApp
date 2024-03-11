@@ -6,7 +6,7 @@ interface RemoteDataSource {
     suspend fun getWeather(
         lat: String?,
         lon: String?,
-//        lang: String?,
-//        units: String?
+        lang: String?,
+        units: String?
     ): WeatherResponse
 }

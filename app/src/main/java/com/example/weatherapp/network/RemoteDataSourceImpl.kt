@@ -8,12 +8,10 @@ class RemoteDataSourceImpl : RemoteDataSource {
     override suspend fun getWeather(
         lat: String?,
         lon: String?,
-//        lang: String?,
-//        units: String?
+        lang: String?,
+        units: String?
     ): WeatherResponse {
-        val root = apiService.getWeather(
-            lat,lon)
-        println(root.body())
+        val root = apiService.getWeather(lat,lon,lang,units)
         return root.body()!!
 
     }

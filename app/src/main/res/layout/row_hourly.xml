@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/time_card_view"
-    android:background="@color/secondary"
+    app:cardBackgroundColor= "@color/primaryShfaf"
     android:layout_width="80dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
@@ -11,13 +11,13 @@
     android:layout_marginBottom="15dp"
     android:padding="500dp"
     app:cardCornerRadius="15dp"
+    app:strokeColor="@color/white"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/time_constraint_layout"
         android:layout_width="match_parent"
-        android:background="@color/secondary"
         android:layout_height="wrap_content">
 
 
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
             android:text="12:00 AM"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/txt_temp_time"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="3dp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

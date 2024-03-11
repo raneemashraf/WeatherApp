@@ -14,10 +14,17 @@
         android:id="@+id/favoriteFragment"
         android:name="com.example.weatherapp.favorite.view.FavoriteFragment"
         android:label="@string/title_favorites"
-        tools:layout="@layout/fragment_favorite" />
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+        <action
+            android:id="@+id/action_favoriteFragment_to_favoriteWeatherFragment"
+            app:destination="@id/favoriteWeatherFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.example.weatherapp.settings.view.SetttingFragment"
+        android:name="com.example.weatherapp.settings.view.SettingFragment"
         android:label="@string/title_setting"
         tools:layout="@layout/fragment_setting" />
     <fragment
@@ -25,4 +32,21 @@
         android:name="com.example.weatherapp.alert.view.AlertFragment"
         android:label="@string/title_alarm"
         tools:layout="@layout/fragment_alert" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="com.example.weatherapp.map.view.MapFragment"
+        android:label="Map"
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteWeatherFragment"
+        android:name="com.example.weatherapp.favorite.view.FavoriteWeatherFragment"
+        android:label="Favorite Weather" >
+        <argument
+            android:name="favoriteCity"
+            app:argType="com.example.weatherapp.model.FavoriteCity" />
+    </fragment>
 </navigation>

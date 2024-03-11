@@ -13,4 +13,12 @@
     <string name="zero">zero</string>
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
+    <string name="save_location">Save Location</string>
+    <string name="add_location">Add Location</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="language">Language</string>
+    <string name="c">°C</string>
+    <string name="f">°F</string>
+    <string name="k">°K</string>
 </resources>

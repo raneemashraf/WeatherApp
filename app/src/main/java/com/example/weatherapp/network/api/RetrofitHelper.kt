@@ -1,12 +1,12 @@
 package com.example.weatherapp.network.api
 
-import com.google.gson.GsonBuilder
+import com.example.weatherapp.utils.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitHelper {
     private var retrofit: Retrofit? = null
-    const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
+    const val BASE_URL = Constants.BASE_URL
     private fun getInstance(): Retrofit {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()

@@ -40,6 +40,8 @@
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigator"
+        app:itemIconTint="@color/primary"
+        android:background="@color/primary"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"

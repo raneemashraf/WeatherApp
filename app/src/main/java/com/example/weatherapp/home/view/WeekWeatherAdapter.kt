@@ -8,7 +8,8 @@ import com.bumptech.glide.Glide
 import com.example.weatherapp.databinding.RowDayBinding
 import com.example.weatherapp.model.Daily
 import com.example.weatherapp.utils.getDateString
-class WeekWeatherAdapter (private val context: Context, private var daily: List<Daily>): RecyclerView.Adapter<WeekWeatherAdapter.ViewHolder>(){
+class WeekWeatherAdapter (private val context: Context, private var daily: List<Daily>):
+    RecyclerView.Adapter<WeekWeatherAdapter.ViewHolder>(){
     private lateinit var binding: RowDayBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,12 +26,9 @@ class WeekWeatherAdapter (private val context: Context, private var daily: List<
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = daily.get(position)
-//
-//        val lon = it
-//        val locList = lon.split(",")
-//        _repo.getWeather(lon = locList[0], lat = locList[1])
+
         binding.txtDayName.text = getDateString(currentItem.dt)
-        binding.txtMaxTempDay.text = currentItem.temp.min.toString() +" / " + currentItem.temp.max.toString()
+        binding.txtMaxTempDay.text = currentItem.temp.min.toInt().toString() +" / " + currentItem.temp.max.toInt().toString()
         binding.txtDescDay.text = currentItem.weather.get(0).description
         Glide
             .with(context)

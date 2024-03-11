@@ -1,5 +1,6 @@
 package com.example.weatherapp.network.api
 
+import com.example.weatherapp.utils.Constants
 import com.example.weatherapp.model.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -10,11 +11,11 @@ interface ApiService {
     suspend fun getWeather(
         @Query("lat") lat: String?,
         @Query("lon") lon: String?,
-        @Query("exclude") exclude: String? = "minutely",
-        @Query("units") units: String? = "metric",
-        @Query("lang") lang: String? = "en",
-        @Query("appid") appid: String?="40dac0af7018969cbb541943f944ba29"
+        @Query("lang") lang: String?,
+        @Query("units") units: String? ,
+        @Query("appid") appid: String?= Constants.APIKEY
     ): Response<WeatherResponse>
 }
+
 //"40dac0af7018969cbb541943f944ba29" onecall
 //e3dcf60855b274191580532e7e5968db forcast

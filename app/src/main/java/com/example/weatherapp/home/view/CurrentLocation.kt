@@ -8,12 +8,14 @@ import android.location.Geocoder
 
 import android.location.LocationManager
 import android.os.Looper
+import android.util.Log
 
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class CurrentLocation(
     var activity: Activity,
@@ -69,7 +71,6 @@ class CurrentLocation(
         mFusedLocationClient.requestLocationUpdates(
             mLocationRequest, mLocationCallback, Looper.myLooper()
         )
-
     }
 
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
@@ -87,9 +88,12 @@ class CurrentLocation(
             if (theAddress?.size!! > 0) {
                 myaddress = theAddress?.get(0)?.subAdminArea.toString()
             }
+            Log.i("TAG", "onLocationResult: "+longitude)
+            Log.i("TAG", "onLocationResult: "+latitude)
 
             GlobalScope.launch {
                 locationStateFlow.emit(
+
                     longitude.toString() + "," + latitude.toString() + "," + myaddress
                 )
             }
