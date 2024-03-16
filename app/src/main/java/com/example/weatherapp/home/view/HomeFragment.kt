@@ -1,7 +1,9 @@
 package com.example.weatherapp.home.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Geocoder
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -26,6 +28,8 @@ import com.example.weatherapp.network.api.ApiState
 import com.example.weatherapp.utils.Constants
 import com.example.weatherapp.utils.PreferenceManager
 import com.example.weatherapp.utils.getDateString
+import com.example.weatherapp.utils.isNetworkAvailable
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -44,7 +48,6 @@ class HomeFragment : Fragment() {
     private lateinit var hourLayoutManager: LinearLayoutManager
     private lateinit var weeklyLayoutManager: LinearLayoutManager
     private lateinit var weeklyAdapter: WeekWeatherAdapter
-    private lateinit var tempUnit:String
 
 
 
@@ -61,14 +64,10 @@ class HomeFragment : Fragment() {
         super.onResume()
         currentLocation.getLastLocation()
     }
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val tempUnit: String = when (PreferenceManager.getSelectedTemperatureUnit(requireContext())) {
-            "imperial" -> getString(R.string.f)
-            "metric" -> getString(R.string.c)
-            "default" -> getString(R.string.k)
-            else -> getString(R.string.c) // Default to Celsius if the unit is not recognized
-        }
+
         geocoder = Geocoder(requireContext())
         currentLocation = CurrentLocation(requireActivity(),requireContext())
         currentLocation.getLastLocation()
@@ -78,7 +77,18 @@ class HomeFragment : Fragment() {
                 RemoteDataSourceImpl(),LocalDataSourceImpl(requireContext())))
 
             viewModel = ViewModelProvider(this,viewModelFactory).get(HomeViewModel::class.java)
+            //viewModel.getWeatherOverNetwork(requireContext())
+
+
+
+        if (isNetworkAvailable(requireContext())) {
             viewModel.getWeatherOverNetwork(requireContext())
+        } else {
+            Snackbar.make(binding.root,
+                getString(R.string.checkInternet),
+                Snackbar.LENGTH_LONG).show()
+            viewModel.getCurrentWeather()
+        }
 
         lifecycleScope.launch {
                 viewModel.weather.collectLatest {
@@ -86,12 +96,18 @@ class HomeFragment : Fragment() {
                         is ApiState.Loading -> {
                             binding.progressBar.visibility = View.VISIBLE
                             binding.parent.visibility = View.GONE
+                            binding.constraintLayout.visibility = View.GONE
                         }
                         is ApiState.Success -> {
                             binding.progressBar.visibility = View.GONE
                             binding.parent.visibility = View.VISIBLE
-                            binding.txtViewLocation.text = getCityName(it.data.lon,it.data.lat)
-                            binding.txtViewTemperature.text = it.data.current.temp.toInt().toString() +" "+ tempUnit
+                            binding.constraintLayout.visibility = View.VISIBLE
+
+                            val cityName = getCityName(it.data.lon,it.data.lat)
+                            binding.txtViewLocation.text = cityName
+                            PreferenceManager.saveCityName(requireContext(),cityName)
+
+                            binding.txtViewTemperature.text = it.data.current.temp.toInt().toString() +" "+ PreferenceManager.getTemperatureUnitString(requireContext())
                             binding.textViewCondition.text = it.data.current.weather[0].description
                             //binding.txtViewDate.text = getDateString(it.data.current.dt)
                             val sdf = SimpleDateFormat("dd MMM, yyyy, hh:mm")
@@ -101,7 +117,8 @@ class HomeFragment : Fragment() {
                             binding.ultraVioMeasure.text = it.data.current.uvi.toString()
                             binding.cloudMeasure.text = it.data.current.clouds.toString() + "%"
                             binding.humidityMeasure.text = it.data.current.humidity.toString()+"%"
-                            binding.windMeasure.text = it.data.current.wind_speed.toString()+"Km/h"
+                            binding.windMeasure.text = "${it.data.current.wind_speed} ${PreferenceManager.getSelectedSpeedUnit(requireContext())}"
+
                             binding.visibilityMeasure.text = it.data.current.visibility.toString()+"Km"
 
                             Glide
@@ -131,13 +148,16 @@ class HomeFragment : Fragment() {
                         }
 
                          is ApiState.Failure  ->  {
-                            Log.i("TAG", "faild: ")
-                        }
+                             binding.progressBar.visibility = View.VISIBLE
+                             binding.parent.visibility = View.GONE
+
+                         }
                     }
                 }
             }
 
     }
+
 
     suspend fun getCityName(longitude: Double, altitude: Double): String {
         return withContext(Dispatchers.IO) {

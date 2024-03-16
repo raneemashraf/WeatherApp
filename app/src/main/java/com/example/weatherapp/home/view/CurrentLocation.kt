@@ -11,7 +11,9 @@ import android.os.Looper
 import android.util.Log
 
 import androidx.core.app.ActivityCompat
+import com.example.weatherapp.utils.PreferenceManager
 import com.google.android.gms.location.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -73,34 +75,45 @@ class CurrentLocation(
         )
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
         @SuppressLint("SuspiciousIndentation")
         override fun onLocationResult(locationResult: LocationResult) {
             super.onLocationResult(locationResult)
 
-
             val mLastLocation = locationResult.lastLocation
             longitude = mLastLocation?.longitude as Double
             latitude = mLastLocation?.latitude as Double
             val geocoder = Geocoder(context)
-            val theAddress =
-                geocoder.getFromLocation(latitude as Double, longitude as Double, 5)
+            val theAddress = geocoder.getFromLocation(latitude, longitude, 5)
             if (theAddress?.size!! > 0) {
-                myaddress = theAddress?.get(0)?.subAdminArea.toString()
+                myaddress = theAddress[0]?.subAdminArea.toString()
             }
-            Log.i("TAG", "onLocationResult: "+longitude)
-            Log.i("TAG", "onLocationResult: "+latitude)
+            PreferenceManager.setLatLonGPS(context,longitude.toString(),latitude.toString())
+            Log.i("TAG", "onLocationResult: $longitude")
+            Log.i("TAG", "onLocationResult: $latitude")
 
             GlobalScope.launch {
                 locationStateFlow.emit(
-
-                    longitude.toString() + "," + latitude.toString() + "," + myaddress
+                    "$longitude,$latitude,$myaddress"
                 )
             }
 
+//            if (lastLocation != null) {
+//                latitude = lastLocation.latitude
+//                longitude = lastLocation.longitude
+//
+//                sharedPreferences.edit().putString(Constants.GPS_LON, longitude.toString()).apply()
+//                sharedPreferences.edit().putString(Constants.GPS_LAT, latitude.toString()).apply()
+//
+//
+//            }else{
+//                latitude  =  sharedPreferences.getFloat(Constants.GPS_LAT, 0f).toDouble()
+//                longitude = sharedPreferences.getFloat(Constants.GPS_LON, 0f).toDouble()
+//            }
+
         }
     }
-
     @SuppressLint("MissingPermission")
     fun getLastLocation() {
         if (checkPermissions()) {

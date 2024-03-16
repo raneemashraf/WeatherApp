@@ -2,7 +2,7 @@
     android:width="800dp"
     android:height="800dp"
     android:viewportWidth="32"
-    android:tint="@color/primaryVariant"
+    android:tint="@color/secondary"
     android:viewportHeight="32">
   <path
       android:pathData="M13,30H9a2.003,2.003 0,0 1,-2 -2V20H9v8h4V20h2v8A2.003,2.003 0,0 1,13 30Z"

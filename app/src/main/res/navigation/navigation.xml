@@ -26,7 +26,11 @@
         android:id="@+id/settingFragment"
         android:name="com.example.weatherapp.settings.view.SettingFragment"
         android:label="@string/title_setting"
-        tools:layout="@layout/fragment_setting" />
+        tools:layout="@layout/fragment_setting" >
+        <action
+            android:id="@+id/action_settingFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
+    </fragment>
     <fragment
         android:id="@+id/alertFragment"
         android:name="com.example.weatherapp.alert.view.AlertFragment"
@@ -40,6 +44,12 @@
         <action
             android:id="@+id/action_mapFragment_to_favoriteFragment"
             app:destination="@id/favoriteFragment" />
+        <action
+            android:id="@+id/action_mapFragment_to_homeFragment2"
+            app:destination="@id/homeFragment" />
+        <argument
+            android:name="destination"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/favoriteWeatherFragment"

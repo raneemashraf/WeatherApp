@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.databinding.RowHourlyBinding
 import com.example.weatherapp.model.Hourly
+import com.example.weatherapp.utils.PreferenceManager
 import com.example.weatherapp.utils.getHourString
 
 class HourWeatherAdapter(
@@ -31,7 +32,7 @@ class HourWeatherAdapter(
 
         fun bind(hourly: Hourly) {
             binding.txtTime.text = getHourString(hourly.dt)
-            binding.txtTempTime.text = hourly.temp.toInt().toString()
+            binding.txtTempTime.text = hourly.temp.toInt().toString()+PreferenceManager.getTemperatureUnitString(context)
             Glide.with(context)
                 .load("https://openweathermap.org/img/wn/${hourly.weather[0].icon}.png")
                 .into(binding.iconTime)

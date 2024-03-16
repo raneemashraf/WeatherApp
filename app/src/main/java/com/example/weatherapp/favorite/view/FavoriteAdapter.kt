@@ -1,5 +1,7 @@
 package com.example.weatherapp.favorite.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.databinding.RowFavBinding
 import com.example.weatherapp.model.FavoriteCity
+import com.example.weatherapp.utils.isNetworkAvailable
+import com.google.android.material.snackbar.Snackbar
 
 class FavoriteAdapter(val onClickListener: FavoriteClickListener)
     : ListAdapter<FavoriteCity, FavoriteAdapter.ViewHolder>(DiffUtils){
@@ -25,10 +29,34 @@ class FavoriteAdapter(val onClickListener: FavoriteClickListener)
         val context = holder.binding.root.context
         holder.binding.txtFavCountryName.text = favoriteCity.cityName
        holder.binding.imageFavDelete.setOnClickListener {
-            onClickListener.onDeleteClick(favoriteCity)
+           val alertDialog = AlertDialog.Builder(context)
+
+           alertDialog.apply {
+               setTitle("Delete")
+               setMessage("Are you sure you want to delete ${favoriteCity.cityName} ?")
+               setPositiveButton("OK") { _: DialogInterface?, _: Int ->
+                   onClickListener.onDeleteClick(favoriteCity)
+                   Snackbar.make(
+                       holder.binding.root,
+                       "The alert deleted successfully",
+                       Snackbar.LENGTH_LONG
+                   ).show()
+               }
+               setNegativeButton("Cancel") { _, _ ->
+               }
+           }.create().show()
         }
+
         holder.binding.favCardView.setOnClickListener(View.OnClickListener {
-            onClickListener.onNavClick(favoriteCity, view = holder.binding.favCardView)
+            if (isNetworkAvailable(context)) {
+                onClickListener.onNavClick(favoriteCity, view = holder.binding.favCardView)
+            } else {
+                Snackbar.make(
+                    holder.binding.root,
+                    "You're offline, Check Internet Connection",
+                    Snackbar.ANIMATION_MODE_FADE
+                ).show()
+            }
         })
     }
 
@@ -43,45 +71,3 @@ class FavoriteAdapter(val onClickListener: FavoriteClickListener)
 
     }
 }
-
-//: ListAdapter<ProductsItem, ProductViewHolder>(ProductDiffUtil()) {
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
-//        val layoutInflater = LayoutInflater.from(parent.context)
-//        val view: View =
-//            layoutInflater.inflate(R.layout.product_item, parent, false)
-//        return ProductViewHolder(view)
-//    }
-//
-//    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-//        val currentObj = getItem(position)
-//        holder.titleTextView.text = currentObj.title
-//        Glide.with(holder.img.getContext())
-//            .load(currentObj.thumbnail)
-//            .into(holder.img)
-//
-//        holder.favButton.setOnClickListener(View.OnClickListener {
-//            listener.onFavClick(currentObj)
-//        })
-//    }
-//
-//
-//}
-//
-//class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-//    var img: ImageView = view.findViewById(R.id.image_view)
-//    var titleTextView: TextView = view.findViewById(R.id.title_text)
-//    var favButton: Button = view.findViewById(R.id.favButton)
-//    var cardView: ConstraintLayout = view.findViewById(R.id.cardView)
-//}
-//
-//
-//class ProductDiffUtil : DiffUtil.ItemCallback<ProductsItem>() {
-//    override fun areItemsTheSame(oldItem: ProductsItem, newItem: ProductsItem): Boolean {
-//        return newItem === oldItem
-//    }
-//
-//    override fun areContentsTheSame(oldItem: ProductsItem, newItem: ProductsItem): Boolean {
-//        return oldItem == newItem
-//    }
-//
-//}

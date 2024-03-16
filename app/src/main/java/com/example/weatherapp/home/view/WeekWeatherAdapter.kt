@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.weatherapp.databinding.RowDayBinding
 import com.example.weatherapp.model.Daily
+import com.example.weatherapp.utils.PreferenceManager
 import com.example.weatherapp.utils.getDateString
+import com.example.weatherapp.utils.getWeekDay
+
 class WeekWeatherAdapter (private val context: Context, private var daily: List<Daily>):
     RecyclerView.Adapter<WeekWeatherAdapter.ViewHolder>(){
     private lateinit var binding: RowDayBinding
@@ -27,8 +30,10 @@ class WeekWeatherAdapter (private val context: Context, private var daily: List<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = daily.get(position)
 
-        binding.txtDayName.text = getDateString(currentItem.dt)
-        binding.txtMaxTempDay.text = currentItem.temp.min.toInt().toString() +" / " + currentItem.temp.max.toInt().toString()
+        //binding.txtDayName.text = getDateString(currentItem.dt)
+        binding.txtDayName.text = getWeekDay(context, currentItem.dt)
+
+        binding.txtMaxTempDay.text = currentItem.temp.min.toInt().toString() +" / " + currentItem.temp.max.toInt().toString()+PreferenceManager.getTemperatureUnitString((context))
         binding.txtDescDay.text = currentItem.weather.get(0).description
         Glide
             .with(context)

@@ -54,6 +54,7 @@ class FavoriteWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val place = arguments?.get("weather")
+
         val tempUnit: String = when (PreferenceManager.getSelectedTemperatureUnit(requireContext())) {
             "imperial" -> getString(R.string.f)
             "metric" -> getString(R.string.c)

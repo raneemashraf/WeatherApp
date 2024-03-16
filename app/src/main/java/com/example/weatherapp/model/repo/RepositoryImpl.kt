@@ -2,6 +2,7 @@ package com.example.weatherapp.model.repo
 
 import android.util.Log
 import com.example.weatherapp.DataBase.LocalDataSource
+import com.example.weatherapp.model.AlertDto
 import com.example.weatherapp.model.FavoriteCity
 import com.example.weatherapp.model.WeatherResponse
 import com.example.weatherapp.network.RemoteDataSource
@@ -11,8 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 class RepositoryImpl private constructor(
     var remoteDataSource: RemoteDataSource,
     var localDataSource: LocalDataSource
-    )
-    :Repository {
+) :Repository {
     companion object{
         private var instance:RepositoryImpl? = null
         fun getInstance(
@@ -27,7 +27,6 @@ class RepositoryImpl private constructor(
             }
         }
     }
-
     override suspend fun getWeather(
         lat: String?,
         lon: String?,
@@ -45,5 +44,30 @@ class RepositoryImpl private constructor(
     }
     override suspend fun deleteCity(favoriteCity: FavoriteCity) {
         localDataSource.deleteCity(favoriteCity)
+    }
+
+    override suspend fun getAlerts(): Flow<List<AlertDto>> {
+        return localDataSource.getAlerts()
+    }
+
+    override suspend fun insertIntoAlert(alertDto: AlertDto) {
+        localDataSource.insertIntoAlert(alertDto)
+    }
+
+    override suspend fun removeFromAlerts(alertDto: AlertDto) {
+        localDataSource.removeFromAlerts(alertDto)
+    }
+
+    override fun getCurrentWeather(): Flow<List<WeatherResponse>> {
+       return localDataSource.getCurrentWeather()
+    }
+
+    override fun insertWeather(weather: WeatherResponse) {
+        localDataSource.insertWeather(weather)
+        Log.i("TAG", "insertWeather: "+weather.current.clouds)
+    }
+
+    override suspend fun deleteCurrentWeather() {
+        localDataSource.deleteCurrentWeather()
     }
 }

@@ -47,7 +47,8 @@ class FavoriteFragment : Fragment(),FavoriteClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.addFavFloating.setOnClickListener(View.OnClickListener {
-            findNavController().navigate(R.id.action_favoriteFragment_to_mapFragment)
+            val bundle = bundleOf("fav" to "fav")
+            Navigation.findNavController(view).navigate(R.id.action_favoriteFragment_to_mapFragment,bundle)
         })
         favoriteViewModelFactory = FavoriteViewModelFactory(
             RepositoryImpl.getInstance(
