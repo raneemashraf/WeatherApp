@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">الطقس</string>
+    <string name="title_home">الرئيسية</string>
+    <string name="title_favorites">المفضلة</string>
+    <string name="title_alarm">التنبيه</string>
+    <string name="title_setting">الإعدادات</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">مرحبًا بالشاشة الفارغة</string>
+    <string name="visibility">الرؤية</string>
+    <string name="ultra_violet">الأشعة فوق البنفسجية</string>
+    <string name="cloud">السحب\n</string>
+    <string name="wind">الرياح</string>
+    <string name="zero">صفر</string>
+    <string name="humidity">الرطوبة</string>
+    <string name="pressure">الضغط</string>
+    <string name="save_location">حفظ الموقع</string>
+    <string name="add_location">إضافة موقع</string>
+    <string name="yes">نعم</string>
+    <string name="cancel">إلغاء</string>
+    <string name="language">اللغة</string>
+    <string name="c">°م</string>
+    <string name="f">°ف</string>
+    <string name="k">°ك</string>
+    <string name="meter_sec">متر / ثانية</string>
+    <string name="mile_hour">ميل / ساعة</string>
+    <string name="MeterPerSecond">م/ث</string>
+    <string name="MilePerHour">مم/س</string>
+    <string name="from">من</string>
+    <string name="to">إلى</string>
+    <string name="add_date">إضافة تاريخ</string>
+    <string name="time">الوقت</string>
+    <string name="add_time">إضافة وقت</string>
+    <string name="notification">التنبيه</string>
+    <string name="alarm">التنبيه</string>
+    <string name="save">حفظ</string>
+    <string name="places_cancel">إلغاء</string>
+    <string name="setup_alert">إعداد التنبيه</string>
+    <string name="cityname" >اسم المدينه</string>
+    <string name="temp" >٣٠</string>
+    <string name="location">الموقع</string>
+    <string name="temperature">درجة الحرارة</string>
+    <string name="map">الخريطة</string>
+    <string name="gps">جي بي أس</string>
+    <string name="english">الإنجليزية</string>
+    <string name="arabic">العربية</string>
+    <string name="fahrenheit">فهرنهايت</string>
+    <string name="kelvin">كلفن</string>
+    <string name="celsius">مئوية</string>
+    <string name="wind_speed">سرعة الرياح</string>
+    <string name="slash">/</string>
+
+
+</resources>
